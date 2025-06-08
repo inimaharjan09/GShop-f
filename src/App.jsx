@@ -1,11 +1,15 @@
 import React from 'react'
+import RootLayout from './components/RootLayout'
+import { createBrowserRouter } from 'react-router-dom'
 
 export default function App() {
-  return (
-    <div>
-      <h1>hello</h1>
-      
-    </div>
-  )
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      children: [
+      ]
+    },
+  ])
 }
 
