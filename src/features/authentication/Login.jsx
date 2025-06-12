@@ -30,6 +30,7 @@ export default function Login() {
             console.log(value);
             try{
               const response = await userLogin(value).unwrap();
+              console.log(response);
               dispatch(setUser(response));
 
               toast.success('Login Successfully');
