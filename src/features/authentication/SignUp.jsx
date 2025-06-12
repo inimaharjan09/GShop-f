@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import React, { useState } from 'react'
 import { useUserSignUpMutation } from './authApi';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function SignUp() {
   const nav = useNavigate();
@@ -88,7 +89,7 @@ export default function SignUp() {
                           <Button
                         onClick={() => nav(-1)} 
                         className="text-blue-500 font-medium hover:bg-gray-50 hover:underline px-2" variant='text'>
-                          login
+                          Login
                         </Button>
                         </Typography>
                       </div>

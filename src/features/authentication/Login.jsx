@@ -8,9 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../user/userSlice';
 
 
-
 export default function Login() {
-
   const nav = useNavigate();
 
   const [userLogin, {isLoading }] = useUserLoginMutation();
@@ -35,8 +33,9 @@ export default function Login() {
               dispatch(setUser(response));
 
               toast.success('Login Successfully');
+              nav(-1);
             }catch(err){
-              toast.error('Login Failed');
+              toast.error(err.data?.message || err.data);
               console.log(err);
             }
           }}
@@ -89,7 +88,6 @@ export default function Login() {
                 <Typography  className="text-center text-sm">
                   Don’t have an account?{' '}
                   <Button
-                
                 className="text-blue-500 font-medium hover:bg-gray-50 hover:underline px-2" 
                 onClick={() => nav('/signup')} 
                 variant='text'>

@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import Login from './features/authentication/Login';
 import SignUp from './features/authentication/SignUp';
 import ProductList from './features/products/ProductList';
+import Carts from './features/carts/Carts';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -23,6 +24,10 @@ export default function App() {
         {
           path: '/signup',
           element: <SignUp/>
+        },
+        {
+          path: '/cart',
+          element: <Carts/>
         }
       ]
     },

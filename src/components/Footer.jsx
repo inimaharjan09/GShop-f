@@ -33,7 +33,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Footer Bottom */}
+      {/* Footer */}
       <div className="mt-10 text-center text-gray-500 text-sm">
         &copy; {new Date().getFullYear()} GadgetShop. All rights reserved.
       </div>
