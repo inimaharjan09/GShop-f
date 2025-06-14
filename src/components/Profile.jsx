@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   UserCircleIcon,
   ChevronDownIcon,
   PowerIcon,
   DocumentChartBarIcon,
-} from '@heroicons/react/24/solid'
+} from '@heroicons/react/24/solid';
 import {
   Avatar,
   Button,
@@ -13,11 +13,11 @@ import {
   MenuItem,
   MenuList,
   Typography,
-} from '@material-tailwind/react'
-import { useDispatch } from 'react-redux'
-import { removeUser } from '../features/user/userSlice'
-import { useNavigate } from 'react-router'
-import { FaUserCircle } from 'react-icons/fa'
+} from '@material-tailwind/react';
+import { useDispatch } from 'react-redux';
+import { removeUser } from '../features/user/userSlice';
+import { useNavigate } from 'react-router';
+import { FaUserCircle } from 'react-icons/fa';
 
 // admin profile menu component
 const adminMenuItems = [
@@ -33,7 +33,7 @@ const adminMenuItems = [
     label: 'Sign Out',
     icon: PowerIcon,
   },
-]
+];
 
 // user profile menu component
 const userMenuItems = [
@@ -45,15 +45,15 @@ const userMenuItems = [
     label: 'Sign Out',
     icon: PowerIcon,
   },
-]
+];
 
 export default function Profile({ user }) {
-  const nav = useNavigate()
-  const dispatch = useDispatch()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const closeMenu = () => setIsMenuOpen(false)
+  const nav = useNavigate();
+  const dispatch = useDispatch();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = () => setIsMenuOpen(false);
   const profileMenuItems =
-    user?.role === 'Admin' ? adminMenuItems : userMenuItems
+    user?.role === 'Admin' ? adminMenuItems : userMenuItems;
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -84,27 +84,27 @@ export default function Profile({ user }) {
       </MenuHandler>
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1
+          const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
               onClick={() => {
                 switch (label) {
                   case 'Sign Out':
-                    dispatch(removeUser())
-                    break
+                    dispatch(removeUser());
+                    break;
                   case 'Admin Dashboard':
-                    nav('/admin/dashboard')
-                    break
+                    nav('/admin/dashboard');
+                    break;
                   case 'Cart':
-                    nav('/carts')
-                    break
+                    nav('/carts');
+                    break;
 
                   case 'Profile':
-                    nav('/user/profile')
-                    break
+                    nav('/user/profile');
+                    break;
                 }
-                closeMenu()
+                closeMenu();
               }}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
@@ -125,9 +125,9 @@ export default function Profile({ user }) {
                 {label}
               </Typography>
             </MenuItem>
-          )
+          );
         })}
       </MenuList>
     </Menu>
-  )
+  );
 }

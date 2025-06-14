@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import {
   getUserFromLocal,
   removeUserFromLocal,
   setUserToLocal,
-} from '../local/local'
+} from '../local/local';
 
 export const userSlice = createSlice({
   name: 'userSlice',
@@ -12,15 +12,15 @@ export const userSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload
-      setUserToLocal(state.user)
+      state.user = action.payload;
+      setUserToLocal(state.user);
     },
 
     removeUser: (state) => {
-      state.user = null
-      removeUserFromLocal()
+      state.user = null;
+      removeUserFromLocal();
     },
   },
-})
+});
 
-export const { setUser, removeUser } = userSlice.actions
+export const { setUser, removeUser } = userSlice.actions;

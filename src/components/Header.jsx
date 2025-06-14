@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Navbar, Typography, Input, Button } from '@material-tailwind/react'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { MdShoppingBag } from 'react-icons/md'
-import { useSelector } from 'react-redux'
-import Profile from './Profile'
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Navbar, Typography, Input, Button } from '@material-tailwind/react';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MdShoppingBag } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import Profile from './Profile';
 
 export default function Header() {
-  const { user } = useSelector((state) => state.userSlice)
-  const [searchQuery, setSearchQuery] = useState('')
+  const { user } = useSelector((state) => state.userSlice);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <Navbar className="bg-gray-200 px-5 py-4 shadow-md rounded-none">
@@ -40,7 +40,7 @@ export default function Header() {
         {/* Navigation Icons */}
         <div className="flex items-center gap-5 text-gray-800">
           {user && (
-            <Link to="/cart" className="hover:text-red-500 transition">
+            <Link to="/carts" className="hover:text-red-500 transition">
               <MdShoppingBag size={28} />
             </Link>
           )}
@@ -58,5 +58,5 @@ export default function Header() {
         </div>
       </div>
     </Navbar>
-  )
+  );
 }

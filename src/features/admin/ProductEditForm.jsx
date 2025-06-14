@@ -6,13 +6,12 @@ import {
   Textarea,
 } from '@material-tailwind/react';
 import { Formik } from 'formik';
-import toast from 'react-hot-toast';
-
-import React from 'react';
-import * as Yup from 'yup';
-import { useAddProductsMutation } from '../products/productApi';
-import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router';
+import { baseUrl } from '../../app/mainApi';
+import { useUpdateProductsMutation } from '../products/productApi';
+import toast from 'react-hot-toast';
 
 export const productSchema = Yup.object().shape({
   name: Yup.string().required('name is required'),
@@ -20,32 +19,30 @@ export const productSchema = Yup.object().shape({
   description: Yup.string().required('description is required'),
   category: Yup.string().required('category is required'),
   stock: Yup.number().required('stock is required'),
-  image: Yup.mixed()
-    .required('image is required')
-    .test('fileType', 'Unsupported File Format', (value) => {
-      console.log(value);
-      return ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'].includes(
-        value.type
-      );
-    }),
+  image: Yup.mixed().test('fileType', 'Unsupported File Format', (value) => {
+    if (!value) return true;
+    return ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'].includes(
+      value.type
+    );
+  }),
 });
 
-export default function ProductAdd() {
-  const [addProducts, { isLoading }] = useAddProductsMutation();
-  const { user } = useSelector((state) => state.userSlice);
+export default function ProductEditForm({ product }) {
   const nav = useNavigate();
+  const { user } = useSelector((state) => state.userSlice);
+  const [updateProduct, { isLoading }] = useUpdateProductsMutation();
 
   return (
     <div className="max-w-[500px] pt-5 mx-auto">
       <Formik
         initialValues={{
-          name: '',
-          price: '',
-          description: '',
-          category: '',
-          stock: '',
+          name: product.name,
+          price: product.price,
+          description: product.description,
+          category: product.category,
+          stock: product.stock,
           image: '',
-          imagePrev: '',
+          imagePrev: product.image,
         }}
         onSubmit={async (val) => {
           const formData = new FormData();
@@ -54,14 +51,23 @@ export default function ProductAdd() {
           formData.append('description', val.description);
           formData.append('category', val.category);
           formData.append('stock', Number(val.stock));
-          formData.append('image', val.image);
-
+          //formData.append('image', val.image);
           try {
-            await addProducts({
-              body: formData,
-              token: user.token,
-            }).unwrap();
-            toast.success('Added Successfully');
+            if (val.image) {
+              formData.append('image', val.image);
+              await updateProduct({
+                id: product._id,
+                token: user.token,
+                body: formData,
+              }).unwrap();
+            } else {
+              await updateProduct({
+                id: product._id,
+                token: user.token,
+                body: formData,
+              }).unwrap();
+            }
+            toast.success('Updated Successfully');
             nav(-1);
           } catch (err) {
             toast.error(err.data?.message || err.data);
@@ -113,6 +119,7 @@ export default function ProductAdd() {
 
             <div>
               <Select
+                value={values.category}
                 onChange={(e) => setFieldValue('category', e)}
                 label="Select Category"
               >
@@ -158,7 +165,11 @@ export default function ProductAdd() {
               {!errors.image && values.imagePrev && (
                 <img
                   className="w-[200px] h-[200px] object-cover"
-                  src={values.imagePrev}
+                  src={
+                    values.image
+                      ? values.imagePrev
+                      : `${baseUrl}${values.imagePrev}`
+                  }
                   alt=""
                 />
               )}

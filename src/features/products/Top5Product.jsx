@@ -1,11 +1,13 @@
-import { Carousel } from '@material-tailwind/react'
-import React from 'react'
-import { useGetTop5ProductsQuery } from './productApi'
-import { baseUrl } from '../../app/mainApi'
+import { Carousel } from '@material-tailwind/react';
+import React from 'react';
+import { useGetTop5ProductsQuery } from './productApi';
+import { baseUrl } from '../../app/mainApi';
 
 export default function Top5Product() {
-  const { isLoadaing, error, data } = useGetTop5ProductsQuery()
-  console.log(data)
+  const { isLoadaing, error, data } = useGetTop5ProductsQuery();
+  console.log(data);
+  if (isLoadaing) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
 
   return (
     <div>
@@ -19,9 +21,9 @@ export default function Top5Product() {
                 alt="image 1"
                 className="h-full w-full object-cover"
               />
-            )
+            );
           })}
       </Carousel>
     </div>
-  )
+  );
 }

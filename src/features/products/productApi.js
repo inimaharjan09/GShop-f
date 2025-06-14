@@ -1,4 +1,4 @@
-import { mainApi } from '../../app/mainApi'
+import { mainApi } from '../../app/mainApi';
 
 export const productApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,6 +8,15 @@ export const productApi = mainApi.injectEndpoints({
         method: 'GET',
         params: query,
       }),
+      providesTags: ['Product'],
+    }),
+
+    getProduct: builder.query({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Product'],
     }),
 
     getTop5Products: builder.query({
@@ -15,20 +24,51 @@ export const productApi = mainApi.injectEndpoints({
         url: '/products/top-5',
         method: 'GET',
       }),
+      providesTags: ['Product'],
     }),
 
     addProducts: builder.mutation({
-      query: (body) => ({
+      query: (query) => ({
         url: '/products',
         method: 'POST',
-        body: body,
+        body: query.body,
+        headers: {
+          Authorization: query.token,
+        },
       }),
+      invalidatesTags: ['Product'],
+    }),
+
+    updateProducts: builder.mutation({
+      query: (q) => ({
+        url: `/products/${q.id}`,
+        method: 'PATCH',
+        body: q.body,
+        headers: {
+          Authorization: q.token,
+        },
+      }),
+      invalidatesTags: ['Product'],
+    }),
+
+    removeProducts: builder.mutation({
+      query: (q) => ({
+        url: `/products/${q.id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: q.token,
+        },
+      }),
+      invalidatesTags: ['Product'],
     }),
   }),
-})
+});
 
 export const {
   useGetProductsQuery,
+  useGetProductQuery,
   useGetTop5ProductsQuery,
   useAddProductsMutation,
-} = productApi
+  useUpdateProductsMutation,
+  useRemoveProductsMutation,
+} = productApi;
