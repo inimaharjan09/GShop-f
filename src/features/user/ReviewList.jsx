@@ -3,9 +3,9 @@ import {
   CardHeader,
   CardBody,
   Typography,
-  Avatar,
   Rating,
 } from '@material-tailwind/react';
+import { FaUserCircle } from 'react-icons/fa';
 export default function ReviewList({ product }) {
   return (
     <div className="mt-10">
@@ -14,7 +14,7 @@ export default function ReviewList({ product }) {
           key={review._id}
           color="transparent"
           shadow={false}
-          className="w-full max-w-[26rem]"
+          className="w-full max-w-[26rem] border border-white"
         >
           <CardHeader
             color="transparent"
@@ -26,10 +26,9 @@ export default function ReviewList({ product }) {
               size={28}
               className="text-gray-800 hover:text-red-500 transition"
             />
-            <Avatar size="lg" variant="circular" src="" alt="tania andrew" />
             <div className="flex w-full flex-col gap-0.5">
               <div className="flex items-center justify-between">
-                <Typography variant="h5" color="blue-gray">
+                <Typography variant="h6" color="blue-gray">
                   {review.username}
                 </Typography>
                 <Rating readonly value={review.rating} />
