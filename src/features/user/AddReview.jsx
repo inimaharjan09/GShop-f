@@ -1,42 +1,41 @@
-import { Button, Rating, Textarea } from "@material-tailwind/react";
-import { Formik } from "formik";
-import { useSelector } from "react-redux";
-import { useAddReviewMutation } from "../products/productApi.js";
-import toast from "react-hot-toast";
+import { Button, Rating, Textarea } from '@material-tailwind/react';
+import { Formik } from 'formik';
+import { useSelector } from 'react-redux';
+import { useAddReviewMutation } from '../products/productApi.js';
+import toast from 'react-hot-toast';
 
 export default function AddReview({ id }) {
   const [addReview, { isLoading }] = useAddReviewMutation();
   const { user } = useSelector((state) => state.userSlice);
 
-
   return (
     <div className="max-w-[400px] mt-10">
-
       <Formik
         initialValues={{
           review: '',
-          rating: 0
+          rating: 0,
         }}
         onSubmit={async (val) => {
+          console.log(id, val);
           try {
-
             await addReview({
               id,
               token: user?.token,
               body: {
                 comment: val.review,
                 rating: Number(val.rating),
-                username: user?.username
-              }
+                username: user?.username,
+              },
             }).unwrap();
             toast.success('Review added successfully');
           } catch (err) {
-            toast.error(err.data?.message || err.data)
+            toast.error(err.data?.message || err.data);
           }
         }}
       >
         {({ handleSubmit, handleChange, touched, values, setFieldValue }) => (
-          <form onSubmit={handleSubmit} className='space-y-6'>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <h1 className="pt-5">Give your Opinion</h1>
             <Rating
               name="rating"
               value={values.rating}
@@ -50,13 +49,12 @@ export default function AddReview({ id }) {
                 value={values.review}
               />
             </div>
-            <Button loading={isLoading} type="submit">Submit</Button>
-
-
+            <Button loading={isLoading} type="submit">
+              Submit
+            </Button>
           </form>
         )}
       </Formik>
-
     </div>
-  )
+  );
 }

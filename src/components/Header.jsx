@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Navbar, Typography, Input, Button } from '@material-tailwind/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { MdShoppingBag } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import Profile from './Profile';
+import SeachCompo from '../features/search/SeachCompo';
 
 export default function Header() {
   const { user } = useSelector((state) => state.userSlice);
+  const { carts } = useSelector((state) => state.cartSlice);
   const [searchQuery, setSearchQuery] = useState('');
+  const nav = useNavigate();
 
   return (
     <Navbar className="bg-gray-200 px-5 py-4 shadow-md rounded-none">
@@ -25,23 +28,20 @@ export default function Header() {
         </Link>
 
         {/* Search Bar */}
-        <div className="w-full md:w-1/3 relative">
-          <Input
-            label="Search product here"
-            color="red"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-white pr-10"
-            crossOrigin=""
-          />
-          <MagnifyingGlassIcon className="w-5 h-5 text-red-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-        </div>
-
+        <SeachCompo />
         {/* Navigation Icons */}
         <div className="flex items-center gap-5 text-gray-800">
           {user && (
-            <Link to="/carts" className="hover:text-red-500 transition">
+            <Link
+              to="/carts"
+              className="relative hover:text-red-500 transition"
+            >
               <MdShoppingBag size={28} />
+              {carts.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                  {carts.length}
+                </span>
+              )}
             </Link>
           )}
 

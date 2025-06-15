@@ -1,6 +1,6 @@
 import React from 'react';
 import RootLayout from './components/RootLayout';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { RouterProvider } from 'react-router-dom';
 import Login from './features/authentication/Login';
 import SignUp from './features/authentication/SignUp';
@@ -12,8 +12,13 @@ import Carts from './features/carts/Carts';
 import ProfileMainPage from './features/user/ProfileMainPage';
 import OrderDetail from './features/orders/OrderDetail';
 import ProductEdit from './features/admin/ProductEdit';
+import AdminRoute from './components/AdminRoute';
+import UserRoute from './components/UserRoute';
+import { useSelector } from 'react-redux';
+import Search from './features/search/Search';
 
 export default function App() {
+  const { user } = useSelector((state) => state.userSlice);
   const router = createBrowserRouter([
     {
       path: '/',
@@ -25,28 +30,36 @@ export default function App() {
         },
         {
           path: 'login',
-          element: <Login />,
+          element: user ? <Navigate to="/" /> : <Login />,
         },
         {
           path: 'signup',
-          element: <SignUp />,
+          element: user ? <Navigate to="/" /> : <SignUp />,
         },
 
         //admin routes
         {
-          path: 'admin/dashboard',
-          element: <AdminPage />,
+          element: <AdminRoute />,
+          children: [
+            {
+              path: 'admin/dashboard',
+              element: <AdminPage />,
+            },
+            {
+              path: 'admin/products/add',
+              element: <ProductAdd />,
+            },
+
+            {
+              path: 'admin/products/edit/:id',
+              element: <ProductEdit />,
+            },
+          ],
         },
         {
-          path: 'admin/products/add',
-          element: <ProductAdd />,
+          path: 'search/:search',
+          element: <Search />,
         },
-
-        {
-          path: 'admin/products/edit/:id',
-          element: <ProductEdit />,
-        },
-
         //product & cart
         {
           path: 'products/:id',
@@ -58,8 +71,13 @@ export default function App() {
         },
         //user profile
         {
-          path: 'user/profile',
-          element: <ProfileMainPage />,
+          element: <UserRoute />,
+          children: [
+            {
+              path: 'user/profile',
+              element: <ProfileMainPage />,
+            },
+          ],
         },
         //order
         {

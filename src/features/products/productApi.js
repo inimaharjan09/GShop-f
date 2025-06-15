@@ -61,6 +61,17 @@ export const productApi = mainApi.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
+    addReview: builder.mutation({
+      query: (q) => ({
+        url: `/products/review/${q.id}`,
+        body: q.body,
+        method: 'PATCH',
+        headers: {
+          Authorization: q.token,
+        }, // did not pass the token so thats why the error shows
+      }),
+      invalidatesTags: ['Product'],
+    }),
   }),
 });
 
@@ -71,4 +82,5 @@ export const {
   useAddProductsMutation,
   useUpdateProductsMutation,
   useRemoveProductsMutation,
+  useAddReviewMutation,
 } = productApi;

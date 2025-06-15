@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { baseUrl } from '../../app/mainApi';
-import { setToCart, removeFromCart } from '../carts/cartSlice';
+import { setToCart, removeFromCart, clearCart } from '../carts/cartSlice';
 import { useAddOrderMutation } from '../orders/orderApi';
 import toast from 'react-hot-toast';
 
@@ -18,7 +18,7 @@ export default function Carts() {
   const { carts } = useSelector((state) => state.cartSlice);
   const { user } = useSelector((state) => state.userSlice);
 
-  const total = carts.reduce((a, b) => a + b.price * b.quantity, 0);
+  const total = carts.reduce((a, b) => a + b.price * b.qty, 0);
   const [addOrder, { isLoading }] = useAddOrderMutation();
   const handleOrder = async () => {
     try {
@@ -65,7 +65,7 @@ export default function Carts() {
                   <td className="p-4">
                     <UpdateToCart product={product} />
                   </td>
-                  <td className="p-4">{product.price * product.quantity}</td>
+                  <td className="p-4">{product.price * product.qty}</td>
                   <td className="p-4">
                     <IconButton
                       onClick={() => dispatch(removeFromCart(product._id))}
@@ -113,7 +113,7 @@ function UpdateToCart({ product }) {
     dispatch(
       setToCart({
         ...product,
-        quantity: isAdd ? product.quantity + 1 : product.quantity - 1,
+        qty: isAdd ? product.qty + 1 : product.qty - 1,
       })
     );
   };
@@ -128,7 +128,7 @@ function UpdateToCart({ product }) {
       >
         <i className="fas fa-minus"></i>
       </IconButton>
-      <span className="text-lg font-semibold">{product.quantity}</span>
+      <span className="text-lg font-semibold">{product.qty}</span>
 
       <IconButton
         onClick={() => handleCart(true)}

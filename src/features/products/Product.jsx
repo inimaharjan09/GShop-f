@@ -5,9 +5,13 @@ import { Button, Card, IconButton, Rating } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToCart } from '../carts/cartSlice';
+import AddReview from '../user/AddReview';
+import ReviewList from '../user/ReviewList';
 
 export default function Product() {
   const { id } = useParams();
+  const { user } = useSelector((state) => state.userSlice);
+
   const { data, isLoading, error } = useGetProductQuery(id);
 
   if (isLoading) return <h1>Loading...</h1>;
@@ -41,6 +45,8 @@ export default function Product() {
           </p>
         </div>
       </div>
+      {user && user?.role === 'User' && <AddReview id={data._id} />}
+      <ReviewList product={data} />
     </div>
   );
 }
@@ -74,7 +80,7 @@ function ProductAddToCart({ product }) {
         <span className="text-gray-700 font-medium">Quantity:</span>
         <IconButton
           disabled={count === 0}
-          onClick={() => setCount(count - 1)}
+          onClick={() => setCount((prev) => prev - 1)}
           size="sm"
           className="bg-gray-300"
         >
@@ -82,7 +88,7 @@ function ProductAddToCart({ product }) {
         </IconButton>
         <span className="text-lg font-semibold">{count}</span>
         <IconButton
-          onClick={() => setCount(count + 1)}
+          onClick={() => setCount((prev) => prev + 1)}
           size="sm"
           className="bg-gray-300"
         >
@@ -92,7 +98,7 @@ function ProductAddToCart({ product }) {
       <br />
       <div className="grid grid-cols-2 gap-2">
         <Button
-          onCanPlay={handleCart}
+          onClick={handleCart}
           disabled={!user || user?.role === 'Admin'}
           size="sm"
           className="bg-gray-600 hover:bg-red-600"
