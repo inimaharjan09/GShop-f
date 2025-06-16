@@ -1,43 +1,43 @@
 @import 'tailwindcss';
-@config "../tailwind.config.js";
+@config '../tailwind.config.js';
 
+/* Custom Theme Variables */
 @theme {
-  /* --color-*: initial; */
+  /* Color Variables */
   --color-primary: red;
   --color-buttonColor: green;
 
+  /* Typography */
   --text-headLarge: 50px;
-  /* --text-xl: 50px; */
 
-  /* --breakpoint-sm: 500px; */
-
+  /* Animation */
   --animate-myAni: ani 2s ease-in infinite;
 
+  /* Grid Layout */
   --my-grid: repeat(auto-fit, minmax(250px, 1fr));
 
+  /* Keyframes */
   @keyframes ani {
     10% {
       background-color: red;
     }
-
     50% {
       background-color: purple;
     }
-
     100% {
       background-color: brown;
     }
   }
 }
 
-/* base layer , component layer utitlities */
-
+/* Base Layer */
 @layer base {
   h1 {
     @apply text-xl font-bold;
   }
 
   p {
+    /* Add global paragraph styling here if needed */
   }
 
   button {
@@ -45,16 +45,20 @@
   }
 }
 
+/* Component Layer */
 @layer components {
   .btn {
-    @apply bg-black px-5 text-white rounded-2xl py-3 ring-2 ring-purple-500;
+    @apply bg-black px-5 py-3 text-white rounded-2xl ring-2 ring-purple-500;
   }
 
   .card {
-    @apply border-2 my-2 p-5 shadow-2xl;
+    @apply border-2 p-5 my-2 shadow-2xl;
   }
 }
 
-@utility flex-center {
-  @apply flex justify-center items-center;
+/* Utility Layer - Custom Utility */
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
 }
