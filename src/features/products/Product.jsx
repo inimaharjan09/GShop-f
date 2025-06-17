@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router';
 import { useGetProductQuery } from './productApi';
 import { baseUrl } from '../../app/mainApi';
-import { Button, Card, IconButton, Rating } from '@material-tailwind/react';
+import { Button, IconButton, Rating } from '@material-tailwind/react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToCart } from '../carts/cartSlice';
@@ -33,7 +33,7 @@ export default function Product() {
             {data.name}
           </h1>
           <p className="text-lg text-red-600 font-bold">Rs. {data.price}</p>
-          <Rating readonly value={data.rating} />
+          <Rating value={data.rating} readonly />
 
           <div>
             <ProductAddToCart product={data} />

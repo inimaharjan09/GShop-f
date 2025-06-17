@@ -34,7 +34,7 @@ export default function ProductList() {
               <div className="p-4 py-2 space-y-1">
                 <h2 className="font-semibold">{name}</h2>
                 <p className="text-red-500">Rs.{price}</p>
-                <Rating value={rating}></Rating>
+                <Rating value={rating} readonly></Rating>
               </div>
             </div>
           );
